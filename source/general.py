@@ -4,8 +4,17 @@ from entity import *
 def uab():
     window.fill((255, 255, 255))
 
-    player.update()
+    # trampoline
+    window.blit(trampoline.image, trampoline.rect)
 
+    # portal
+    window.blit(portal.image, portal.rect)
+
+    # mirror
+    window.blit(mirror.image, mirror.rect)
+
+    # player
+    player.update()
     window.blit(player.image, player.rect)
 
 
