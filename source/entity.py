@@ -7,7 +7,7 @@ from pygame import sprite
 class Player(sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.image.load('./resource/player/player_100.png')
+        self.image = pygame.image.load('./resource/player/player_100_right.png')
         self.rect = self.image.get_rect()
         self.vel: list[float] = [0., 0.]
 
@@ -46,6 +46,7 @@ class Player(sprite.Sprite):
             self.vel[1] = 0
 
         self.collide()
+        self.image_update()
 
     def collide(self):
         if self.rect.colliderect(trampoline.rect):
@@ -64,14 +65,15 @@ class Player(sprite.Sprite):
                 gravity *= -1
                 mirror.collide_checker = True
 
-                self.image_update()
-
         else:
             mirror.collide_checker = False
 
     def image_update(self):
         if gravity > 0:
-            self.image = pygame.image.load('./resource/player/player_100.png')
+            if self.vel[0] > 0:
+                self.image = pygame.image.load('./resource/player/player_100_right.png')
+            elif self.vel[0] < 0:
+                self.image = pygame.image.load('./resource/player/player_100_left.png')
         else:
             self.image = pygame.image.load('./resource/player/player_100_reversed.png')
 
