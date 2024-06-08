@@ -1,4 +1,5 @@
 import json
+from typing import Sequence
 
 import pygame
 from pygame import sprite
@@ -16,7 +17,10 @@ class Player(sprite.Sprite):
         self.rect = self.image.get_rect()
         self.vel: list[float] = [0., 0.]
 
+        self.weight = 100
+
         self.rect.bottom = window_h
+        self.rect.centerx = window_w / 2
 
     def update(self):
         self.rect.x += self.vel[0]
@@ -47,9 +51,31 @@ class Player(sprite.Sprite):
             self.rect.bottom = window_h
             self.vel[1] = 20
 
+        self.collide()
+
+    def collide(self):
+        for food in sprite.spritecollide(self, food_group, True):
+            self.weight += food.weight
+
+
+class Chicken(sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.image = pygame.image.load('./resource/food/chicken.png')
+        self.rect = self.image.get_rect()
+        self.weight = 5
+
 
 # window setting
 window = pygame.display.set_mode((window_w, window_h))
 
 # entity setting
 player = Player()
+food_group = pygame.sprite.Group()
+
+food_1 = Chicken()
+food_1.rect.x = 100
+food_1.rect.bottom = window_h
+# noinspection PyTypeChecker
+food_group.add(food_1)
+

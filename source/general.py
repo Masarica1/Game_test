@@ -10,7 +10,11 @@ def uab():
     window.blit(player.image, player.rect)
 
     # font
-    window.blit(font.health_font.text, font.health_font.rect)
+    font.weight_font.text_convert(f'Weight: {player.weight}')
+    window.blit(font.weight_font.text, font.weight_font.rect)
+
+    # food
+    food_group.draw(window)
 
 
 def event_precesser():

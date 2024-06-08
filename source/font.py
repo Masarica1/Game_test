@@ -21,6 +21,6 @@ class Font:
         self.text = self.font.render(text, True, (0, 0, 0))
 
 
-health_font = Font(64, 'Health: ?')
-health_font.rect.right = window_w - 50
-health_font.rect.top = 25
+weight_font = Font(64, 'Weight: ?')
+weight_font.rect.right = window_w - 50
+weight_font.rect.top = 25
