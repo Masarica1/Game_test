@@ -1,5 +1,7 @@
 from typing import Sequence
 
+from math import fabs
+
 import pygame
 from pygame import sprite
 
@@ -7,9 +9,10 @@ from pygame import sprite
 class Player(sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.image.load('./resource/player/player_100_right.png')
+        self.image = pygame.image.load('../resource/player/straight/player_100_right.png')
         self.rect = self.image.get_rect()
         self.vel: list[float] = [0., 0.]
+        self.bald: bool = False
 
         self.rect.centerx, self.rect.centery = window_w, window_h
 
@@ -71,17 +74,32 @@ class Player(sprite.Sprite):
     def image_update(self):
         if gravity > 0:
             if self.vel[0] > 0:
-                self.image = pygame.image.load('./resource/player/player_100_right.png')
+                if self.bald:
+                    self.image = pygame.image.load('../resource/player/straight/player_100_right_bal.png')
+                else:
+                    self.image = pygame.image.load('../resource/player/straight/player_100_right.png')
             elif self.vel[0] < 0:
-                self.image = pygame.image.load('./resource/player/player_100_left.png')
+                if self.bald:
+                    self.image = pygame.image.load('../resource/player/straight/player_100_left_bald.png')
+                else:
+                    self.image = pygame.image.load('../resource/player/straight/player_100_left.png')
         else:
-            self.image = pygame.image.load('./resource/player/player_100_reversed.png')
+            if self.vel[0] > 0:
+                if self.bald:
+                    self.image = pygame.image.load('../resource/player/reversed/player_100_right_bal.png')
+                else:
+                    self.image = pygame.image.load('../resource/player/reversed/player_100_right.png')
+            elif self.vel[0] < 0:
+                if self.bald:
+                    self.image = pygame.image.load('../resource/player/reversed/player_100_left_bald.png')
+                else:
+                    self.image = pygame.image.load('../resource/player/reversed/player_100_left.png')
 
 
 class Trampoline(sprite.Sprite):
     def __init__(self, position: Sequence[int]):
         super().__init__()
-        self.image = pygame.image.load('./resource/trampoline.png')
+        self.image = pygame.image.load('../resource/trampoline.png')
         self.rect = self.image.get_rect()
 
         self.collide_checker = False
@@ -92,7 +110,7 @@ class Trampoline(sprite.Sprite):
 class Portal(sprite.Sprite):
     def __init__(self, target_position: Sequence[int]):
         super().__init__()
-        self.image = pygame.image.load('./resource/portal.png')
+        self.image = pygame.image.load('../resource/portal.png')
         self.rect = self.image.get_rect()
 
         self.target_position = target_position
@@ -101,10 +119,39 @@ class Portal(sprite.Sprite):
 class Mirror(sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.image.load('./resource/mirror.png')
+        self.image = pygame.image.load('../resource/mirror.png')
         self.rect = self.image.get_rect()
 
         self.collide_checker = False
+
+
+class Chinmey(sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.image = pygame.image.load('../resource/chimney/chimney_reversed.png')
+        self.rect = self.image.get_rect()
+
+        self.siwoo = Siwoo()
+        self.siwoo_vel = 2
+
+    def update(self):
+        if self.rect.bottom < self.siwoo.rect.top:
+            self.siwoo_vel = -fabs(self.siwoo_vel)
+        elif self.rect.bottom > self.siwoo.rect.bottom:
+            self.siwoo_vel = fabs(self.siwoo_vel)
+        else:
+            pass
+
+        self.siwoo.rect.y += self.siwoo_vel
+
+
+class Siwoo(sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.image = pygame.image.load('../resource/chimney/siwoo_re.png')
+        self.rect = self.image.get_rect()
+        self.vel = 2
+        self.direction: bool = True
 
 
 # global parameter
@@ -124,3 +171,8 @@ portal.rect.left = 0
 
 mirror = Mirror()
 mirror.rect.centerx, mirror.rect.bottom = window_w / 3, window_h
+
+chimney = Chinmey()
+chimney.rect.top = 0
+chimney.rect.left = 200
+chimney.siwoo.rect.centerx, chimney.siwoo.rect.centery = chimney.rect.centerx, chimney.rect.centery

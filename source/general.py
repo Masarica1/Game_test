@@ -13,6 +13,11 @@ def uab():
     # mirror
     window.blit(mirror.image, mirror.rect)
 
+    # chimney
+    chimney.update()
+    window.blit(chimney.siwoo.image, chimney.siwoo.rect)
+    window.blit(chimney.image, chimney.rect)
+
     # player
     player.update()
     window.blit(player.image, player.rect)
