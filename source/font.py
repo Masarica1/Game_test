@@ -4,7 +4,7 @@ import pygame
 
 pygame.init()
 
-with open('./resource/setting.json', 'r', encoding='utf-8') as file:
+with open('../resource/setting.json', 'r', encoding='utf-8') as file:
     data = json.load(file)
     window_w = data['window_w']
     window_h = data['window_h']
