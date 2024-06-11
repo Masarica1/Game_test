@@ -4,7 +4,7 @@ from typing import Sequence
 import pygame
 from pygame import sprite
 
-with open('./resource/setting.json', 'r', encoding='utf-8') as file:
+with open('../resource/setting.json', 'r', encoding='utf-8') as file:
     data = json.load(file)
     window_w = data['window_w']
     window_h = data['window_h']
@@ -13,7 +13,7 @@ with open('./resource/setting.json', 'r', encoding='utf-8') as file:
 class Player(sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.image.load('./resource/player/player_100.png')
+        self.image = pygame.image.load('../resource/player/player_100.png')
         self.rect = self.image.get_rect()
         self.vel: list[float] = [0., 0.]
 
@@ -61,7 +61,7 @@ class Player(sprite.Sprite):
 class Chicken(sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.image.load('./resource/food/chicken.png')
+        self.image = pygame.image.load('../resource/food/chicken.png')
         self.rect = self.image.get_rect()
         self.weight = 5
 
